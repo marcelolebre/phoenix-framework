@@ -19,6 +19,7 @@ defmodule UaChat.Router do
     get "/", PageController, :index
     get "/chat", ChatController, :index
     get "/chat/:name", ChatController, :show
+    get "/test/:id", ChatController, :test
   end
 
   # Other scopes may use custom stacks.

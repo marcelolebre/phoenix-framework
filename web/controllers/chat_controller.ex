@@ -6,6 +6,14 @@ defmodule UaChat.ChatController do
   end
 
   def show(conn, %{"name" => name}) do
-    render conn, "show.html", name: name
+    conn
+      |> put_flash(:info, "Welcome to Phoenix, from flash info!")
+      |> put_flash(:error, "Let's pretend we have an error.")
+      |> assign(:name, name)
+      |> render("show.html")
+  end
+
+  def test(conn, %{"id" => id}) do
+    json conn, %{id: id}
   end
 end

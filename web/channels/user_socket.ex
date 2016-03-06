@@ -2,7 +2,7 @@ defmodule UaChat.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "rooms:*", UaChat.RoomChannel
+  channel "rooms:*", UaChat.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

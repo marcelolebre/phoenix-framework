@@ -1177,6 +1177,12 @@ for (var i = 0; i < len; ++i) {
 "use strict";
 
 require("phoenix_html");
+
+var _socket = require("./socket");
+
+var _socket2 = _interopRequireDefault(_socket);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 });
 
 ;require.register("web/static/js/socket", function(exports, require, module) {
@@ -1242,9 +1248,25 @@ var socket = new _phoenix.Socket("/socket", { params: { token: window.userToken 
 socket.connect();
 
 // Now that you are connected, you can join channels with a topic:
-var channel = socket.channel("topic:subtopic", {});
-channel.join().receive("ok", function (resp) {
-  console.log("Joined successfully", resp);
+var channel = socket.channel("rooms:lobby", {});
+var chatInput = $("#chat-input");
+var messagesContainer = $("#messages");
+
+chatInput.on("keypress", function (event) {
+  if (event.keyCode === 13) {
+    channel.push("new_msg", { message: chatInput.val(), author: 'Marcelo' });
+    chatInput.val("");
+  }
+});
+
+channel.on("new_msg", function (message) {
+  messagesContainer.append("<br/>[" + message.author + "] " + message.payload);
+});
+
+channel.join().receive("ok", function (messages) {
+  messages.forEach(function (message) {
+    messagesContainer.append("<br/>[" + message.author + "] " + message.payload);
+  });
 }).receive("error", function (resp) {
   console.log("Unable to join", resp);
 });
