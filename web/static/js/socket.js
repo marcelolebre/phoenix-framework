@@ -57,10 +57,11 @@ socket.connect()
 let channel = socket.channel("rooms:lobby", {})
 let chatInput         = $("#chat-input")
 let messagesContainer = $("#messages")
+let author = window.location.pathname.split("/").pop();
 
 chatInput.on("keypress", event => {
   if(event.keyCode === 13){
-    channel.push("new_msg", {message: chatInput.val(), author: 'Marcelo'})
+    channel.push("new_msg", {message: chatInput.val(), author: author})
     chatInput.val("")
   }
 })

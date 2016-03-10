@@ -7,8 +7,6 @@ defmodule UaChat.ChatController do
 
   def show(conn, %{"name" => name}) do
     conn
-      |> put_flash(:info, "Welcome to Phoenix, from flash info!")
-      |> put_flash(:error, "Let's pretend we have an error.")
       |> assign(:name, name)
       |> render("show.html")
   end

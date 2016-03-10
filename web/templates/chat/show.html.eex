@@ -1,6 +1,4 @@
 <div class="jumbotron">
-  <h2>Hello World, from <%= full_name(@name) %>!</h2>
-
   <div id="messages"></div>
-  <input id="chat-input" type="text"></input>
+  Write a message and press enter:<input id="chat-input" type="text"></input>
 </div>

@@ -1251,10 +1251,11 @@ socket.connect();
 var channel = socket.channel("rooms:lobby", {});
 var chatInput = $("#chat-input");
 var messagesContainer = $("#messages");
+var author = window.location.pathname.split("/").pop();
 
 chatInput.on("keypress", function (event) {
   if (event.keyCode === 13) {
-    channel.push("new_msg", { message: chatInput.val(), author: 'Marcelo' });
+    channel.push("new_msg", { message: chatInput.val(), author: author });
     chatInput.val("");
   }
 });
