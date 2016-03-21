@@ -58,6 +58,8 @@ let channel = socket.channel("rooms:lobby", {})
 let chatInput         = $("#chat-input")
 let messagesContainer = $("#messages")
 let author = window.location.pathname.split("/").pop();
+let sendButton = $("#send-button")
+let slider = $("#happyness-slider")
 
 chatInput.on("keypress", event => {
   if(event.keyCode === 13){
@@ -66,14 +68,19 @@ chatInput.on("keypress", event => {
   }
 })
 
+sendButton.click(function(){
+  channel.push("new_msg", {message: chatInput.val(), author: author})
+  chatInput.val("")
+})
+
 channel.on("new_msg", message => {
-  messagesContainer.append(`<br/>[${message.author}] ${message.payload}`)
+  messagesContainer.append(`<li class="collection-item avatar"><span class="title">${message.author}</span><p>${message.payload}</p></li>`)
 })
 
 channel.join()
   .receive("ok", messages => {
     messages.forEach(function(message){
-      messagesContainer.append(`<br/>[${message.author}] ${message.payload}`)
+      messagesContainer.append(`<li class="collection-item avatar"><span class="title">${message.author}</span><p>${message.payload}</p></li>`)
     });
   })
 
