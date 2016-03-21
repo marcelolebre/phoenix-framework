@@ -1252,6 +1252,8 @@ var channel = socket.channel("rooms:lobby", {});
 var chatInput = $("#chat-input");
 var messagesContainer = $("#messages");
 var author = window.location.pathname.split("/").pop();
+var sendButton = $("#send-button");
+var slider = $("#happyness-slider");
 
 chatInput.on("keypress", function (event) {
   if (event.keyCode === 13) {
@@ -1260,13 +1262,18 @@ chatInput.on("keypress", function (event) {
   }
 });
 
+sendButton.click(function () {
+  channel.push("new_msg", { message: chatInput.val(), author: author });
+  chatInput.val("");
+});
+
 channel.on("new_msg", function (message) {
-  messagesContainer.append("<br/>[" + message.author + "] " + message.payload);
+  messagesContainer.append("<li class=\"collection-item avatar\"><span class=\"title\">" + message.author + "</span><p>" + message.payload + "</p></li>");
 });
 
 channel.join().receive("ok", function (messages) {
   messages.forEach(function (message) {
-    messagesContainer.append("<br/>[" + message.author + "] " + message.payload);
+    messagesContainer.append("<li class=\"collection-item avatar\"><span class=\"title\">" + message.author + "</span><p>" + message.payload + "</p></li>");
   });
 }).receive("error", function (resp) {
   console.log("Unable to join", resp);
